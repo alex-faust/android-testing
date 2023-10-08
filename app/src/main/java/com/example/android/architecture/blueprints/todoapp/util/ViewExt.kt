@@ -24,9 +24,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import com.example.android.architecture.blueprints.reactive.R
 import com.example.android.architecture.blueprints.todoapp.Event
-import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 
@@ -48,11 +47,11 @@ fun View.setupSnackbar(
     timeLength: Int
 ) {
 
-    snackbarEvent.observe(lifecycleOwner, Observer { event ->
+    snackbarEvent.observe(lifecycleOwner) { event ->
         event.getContentIfNotHandled()?.let {
             showSnackbar(context.getString(it), timeLength)
         }
-    })
+    }
 }
 
 fun Fragment.setupRefreshLayout(

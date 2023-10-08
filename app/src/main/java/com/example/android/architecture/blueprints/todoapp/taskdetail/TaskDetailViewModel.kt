@@ -18,8 +18,8 @@ package com.example.android.architecture.blueprints.todoapp.taskdetail
 import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.*
+import com.example.android.architecture.blueprints.reactive.R
 import com.example.android.architecture.blueprints.todoapp.Event
-import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Result.Success
 import com.example.android.architecture.blueprints.todoapp.data.Task
