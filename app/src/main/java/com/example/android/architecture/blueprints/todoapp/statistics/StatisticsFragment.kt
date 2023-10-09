@@ -22,8 +22,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.android.architecture.blueprints.reactive.R
-import com.example.android.architecture.blueprints.reactive.databinding.StatisticsFragBinding
+import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.databinding.StatisticsFragBinding
+
 import com.example.android.architecture.blueprints.todoapp.util.setupRefreshLayout
 
 /**

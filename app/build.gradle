@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdk rootProject.compileSdk
-    namespace "com.example.android.architecture.blueprints.reactive"
+    namespace "com.example.android.architecture.blueprints.todoapp"
 
     defaultConfig {
-        applicationId "com.example.android.architecture.blueprints.reactive"
+        applicationId "com.example.android.architecture.blueprints.todoapp"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         multiDexEnabled true
@@ -25,17 +25,15 @@ android {
 
     buildFeatures {
         dataBinding true
-        //enabledForTests true
     }
     //Compile-Options Block
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     compileOptions {
-            sourceCompatibility JavaVersion.VERSION_17
-            targetCompatibility JavaVersion.VERSION_17
-        }
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 }
 
 dependencies {
@@ -51,6 +49,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupport"
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
 
     // Architecture Components
     implementation "androidx.room:room-runtime:$roomVersion"
@@ -61,6 +60,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    implementation "com.google.devtools.ksp:symbol-processing-api:1.9.0-1.0.13"
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$junitVersion"
