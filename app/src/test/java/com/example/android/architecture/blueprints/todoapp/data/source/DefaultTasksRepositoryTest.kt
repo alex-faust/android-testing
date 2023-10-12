@@ -1,5 +1,6 @@
 package com.example.android.architecture.blueprints.todoapp.data.source
 
+import com.example.android.architecture.blueprints.todoapp.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import kotlinx.coroutines.Dispatchers
@@ -10,6 +11,7 @@ import kotlinx.coroutines.test.runTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 
@@ -24,8 +26,12 @@ class DefaultTasksRepositoryTest {
     private lateinit var tasksRemoteDataSource: FakeDataSource
     private lateinit var tasksLocalDataSource: FakeDataSource
 
-    //class unde test
+    //class under test
     private lateinit var tasksRepository: DefaultTasksRepository
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     @Before
     fun createRepository() {
@@ -40,7 +46,7 @@ class DefaultTasksRepositoryTest {
 
     @ExperimentalCoroutinesApi
     @Test //need to call run blocking when using a suspend method in a test
-    fun getTasks_requestAllTasksFromRemoteDataSource() = runTest {
+    fun getTasks_requestAllTasksFromRemoteDataSource() = mainCoroutineRule.runTest {
         //When tasks are requested from the tasks repository
         val tasks = tasksRepository.getTasks(true) as Result.Success
         //Then tasks are loaded from the remote data source

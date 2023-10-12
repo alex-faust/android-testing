@@ -159,7 +159,7 @@ class DefaultTasksRepository (
 
     override suspend fun completeTask(taskId: String) {
         withContext(ioDispatcher) {
-            (getTaskWithId(taskId) as? Success)?.let { it ->
+            (getTaskWithId(taskId) as? Success)?.let {
                 completeTask(it.data)
             }
         }
