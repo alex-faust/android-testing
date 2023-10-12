@@ -32,11 +32,11 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel for the Details screen.
  */
-class TaskDetailViewModel(application: Application) : AndroidViewModel(application) {
+class TaskDetailViewModel(private val tasksRepository: TasksRepository) : ViewModel() {
 
     // Note, for testing and architecture purposes, it's bad practice to construct the repository
     // here. We'll show you how to fix this during the codelab
-    private val tasksRepository = (application as TodoApplication).taskRepository
+   // private val tasksRepository = (application as TodoApplication).taskRepository
 
     private val _taskId = MutableLiveData<String?>()
 
@@ -125,7 +125,7 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
         private val tasksRepository: TasksRepository
     ) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>) =
-            (TasksViewModel(tasksRepository) as T)
+            (TaskDetailViewModel(tasksRepository) as T)
 
     }
 }

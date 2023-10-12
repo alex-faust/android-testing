@@ -8,13 +8,19 @@ import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepo
 import com.example.android.architecture.blueprints.todoapp.data.source.local.TasksLocalDataSource
 import com.example.android.architecture.blueprints.todoapp.data.source.local.ToDoDatabase
 import com.example.android.architecture.blueprints.todoapp.data.source.remote.TasksRemoteDataSource
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.annotations.VisibleForTesting
 
 object ServiceLocator {
+
+    private val lock = Any()
 
     private var database: ToDoDatabase? = null
 
     @Volatile //repo can be used and requested by multiple threads
     var tasksRepository: TasksRepository? = null
+    @VisibleForTesting set  //it's public for testing. in normal code, you would never call this
+
     fun provideTasksRepository(context: Context): TasksRepository {
         synchronized(this) { //makes sure it doesn't accidentally create the repo twice
             return tasksRepository ?: createTasksRepository(context)
@@ -40,5 +46,21 @@ object ServiceLocator {
         ).build()
         database = result
         return result
+    }
+
+    @VisibleForTesting
+    fun resetRepository() {
+        synchronized(lock) {
+            runBlocking {
+                TasksRemoteDataSource.deleteAllTasks()
+            }
+            //clear all data to avoid test pollution.
+            database?.apply {
+                clearAllTables()
+                close()
+            }
+            database = null
+            tasksRepository = null
+        }
     }
 }
