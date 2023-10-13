@@ -9,9 +9,15 @@ import kotlinx.coroutines.runBlocking
 
 class FakeTestRepository : TasksRepository {
 
+    private var shouldReturnError = false
+
     var tasksServiceData: LinkedHashMap<String, Task> = LinkedHashMap()
 
     private val observableTasks = MutableLiveData<Result<List<Task>>>()
+
+    fun setReturnError(value: Boolean) {
+        shouldReturnError = value
+    }
 
     override suspend fun refreshTasks() {
         observableTasks.value = getTasks()
@@ -42,6 +48,9 @@ class FakeTestRepository : TasksRepository {
     }
 
     override suspend fun getTask(taskId: String, forceUpdate: Boolean): Result<Task> {
+        if (shouldReturnError) {
+            return Result.Error(Exception("Test exception"))
+        }
         tasksServiceData[taskId]?.let {
             return Result.Success(it)
         }
@@ -49,6 +58,9 @@ class FakeTestRepository : TasksRepository {
     }
 
     override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
+        if (shouldReturnError) {
+            return Result.Error(Exception("Test exception"))
+        }
         return Result.Success(tasksServiceData.values.toList())
     }
 
